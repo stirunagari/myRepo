@@ -1,0 +1,50 @@
+<div>
+	<!-- Nav Bar overlay -->
+    <div id="side-bar-overlay" cw-nav-collapse></div>
+    <!-- Navigation -->
+    <nav role="navigation" class="navbar navbar-default navbar-inverse" id='topNavBar' ng-class="contactNav">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button id="topNavBtn" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavCollapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a ui-sref="home">LEAVE MANAGEMENT SYSTEM</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="topNavCollapse">
+                  <ul class="nav navbar-nav hover">
+                      <li><a ui-sref="lms.leave">My Leaves</a></li>
+                      <li><a ui-sref="lms.approveLeave">Leave Approval</a></li>
+                      <li><a ui-sref="lms.holiday">Holidays</a></li>
+                      <li><a ui-sref="lms">Others</a></li>
+                  </ul>
+              </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div class="col-sm-12">   
+      <div class="col-sm-3 side-bar-empdetails">
+        <h3>Employee Details</h3>
+        <h5>Balaji Mohan</h5>
+      </div>
+      <div ui-view class="col-sm-9"></div> 
+    </div>
+    <footer class='footer-style'>
+        <div class="container">
+            <div class="row">
+                <div >
+                  <center>
+                    <span class="copyright"> &copy; Copyright 2017, A venture of Mobifever Technologies</span>
+                  </center>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+</div>

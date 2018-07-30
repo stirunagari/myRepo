@@ -1,0 +1,22 @@
+<div ng-controller="leaveController" class="col-sm-12 leave-detail">
+my leaves ---- {{myLeaves}}
+	<!-- Leave nav bar comes here later -->
+	<button>Apply Leave</button>
+	<h4>My Leaves</h4>
+	<table border="1">
+		<tr>		
+			<th>Reason</th>
+			<th>From-To</th>
+			<th>Status</th>
+			<th>Approved By</th>
+			<th>Approved On</th>
+		</tr>
+		<tr ng-repeat="l in myLeaves">
+			<td>{{l.reason}}</td>
+			<td>{{l.from_date}} to {{l.to_date}}</td>
+			<td>{{l.status}}</td>
+			<td>{{l.approved_by_id}}</td>
+			<td>{{l.approved_date}}</td>
+		</tr>
+	</table>
+</div>
