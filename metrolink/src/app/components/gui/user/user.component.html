@@ -1,0 +1,106 @@
+<!-- Title group  -->
+  <div class="title-group">
+    <h1 class="mat-h1">Users</h1>
+    <mat-divider fxFlex="1 0"></mat-divider>
+  </div>
+  
+  <!--Add users Form -->
+<div class="inner-wrapper">
+    <mat-card>
+        <h3>Users</h3>
+        <p *ngIf="UserData.length <= 0" class="no-data">There is no user added yet!</p>
+
+        <div class="container" *ngIf="UserData.length > 0">
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource">
+
+                <ng-container matColumnDef="fname">
+                    <th mat-header-cell *matHeaderCellDef> First Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.fname}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="sname">
+                    <th mat-header-cell *matHeaderCellDef> Surname </th>
+                    <td mat-cell *matCellDef="let element"> {{element.sname}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element; let i = index;">
+                    <!-- <button mat-raised-button color="primary" class="push-right"
+                        [routerLink]="['/edit-user/', element._id]">Edit</button> -->
+                    <button mat-raised-button color="accent" (click)="deleteUser(i, element)">Delete</button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </mat-card>
+    <mat-card>
+        <h3>Add user</h3>
+        <form [formGroup]="userForm" (ngSubmit)="submitUserForm()" #resetUserForm="ngForm" novalidate>
+            <!-- Left block -->
+            <div class="controlers-wrapper">
+            <!-- Username -->
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Username" formControlName="username">
+                <mat-error *ngIf="handleError('username', 'required')">
+                You must provide a <strong>username</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <!-- First name -->
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="First name" formControlName="fname">
+                <mat-error *ngIf="handleError('fname', 'required')">
+                You must provide a <strong>first name</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Surname -->
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Surname" formControlName="sname">
+                <mat-error *ngIf="handleError('sname', 'required')">
+                You must provide a <strong>surname</strong>
+                </mat-error>
+            </mat-form-field>
+    
+            <!-- Email -->
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Email" formControlName="email">
+                <mat-error *ngIf="handleError('email', 'required')">
+                You must provide an<strong> email address</strong>
+                </mat-error>
+            </mat-form-field>
+    
+            <!-- Is admin -->
+            <mat-form-field>
+                <mat-label>Is admin?</mat-label>
+                <mat-select [(value)]="selected" formControlName="is_admin">
+                <mat-option [value]="1" >Yes</mat-option>
+                <mat-option [value]="0" >No</mat-option>
+                </mat-select>
+                <mat-error *ngIf="handleError('is_admin', 'required')">
+                This field is required
+                </mat-error>
+            </mat-form-field>
+            <div class="full-wrapper button-wrapper">
+                <div class="button-wrapper">
+                <button mat-flat-button color="warn">Submit</button>
+                </div>
+            </div>
+            </div>
+        </form>
+    </mat-card>
+
+</div>
