@@ -1,71 +1,35 @@
 const express = require('express');
-const app = express();
-const userRoute = express.Router();
+const user_route = express.Router();
+//crud controller
+let crud = require('../controller/crud.controller');
 
 // user model
 let user = require('../model/user');
 
 // Add user
-userRoute.route('/user/add').post((req, res, next) => {
-  console.log(req.body)
-  user.create(req.body, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+user_route.route('/user/add').post((req, res, next) => {
+  crud.addRecord(user, req, res, next);
 });
 
-// Get all users
-userRoute.route('/users').get((req, res) => {
-  user.find((error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+// Get all user
+user_route.route('/users').get((req, res, next) => {
+  crud.getAll(user, res, next);
 })
 
 // Get user by id
-userRoute.route('/user/:id').get((req, res) => {
-  user.findById(req.params.id, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+user_route.route('/user/:id').get((req, res, next) => {
+  crud.getById(user, req.params.id, res, next);
 })
 
 
 // Update user
-userRoute.route('/user/:id').put((req, res, next) => {
-  user.findByIdAndUpdate(req.params.id, {
-    $set: req.body
-  }, (error, data) => {
-    if (error) {
-      return next(error);
-      console.log(error)
-    } else {
-      res.json(data)
-      console.log('user successfully updated!')
-    }
-  })
+user_route.route('/user/:id').put((req, res, next) => {
+  crud.update(user, req, res, next);
 })
 
-// Delete student
-userRoute.route('/user/:id').delete((req, res, next) => {
-  user.findByIdAndRemove(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.status(200).json({
-        msg: data
-      })
-    }
-  })
+// Delete user
+user_route.route('/user/:id').delete((req, res, next) => {
+  crud.delete(user, req, res, next);
 })
 
-module.exports = userRoute;
+module.exports = user_route;

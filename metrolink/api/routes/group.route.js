@@ -1,71 +1,35 @@
 const express = require('express');
-const app = express();
-const groupRoute = express.Router();
+const group_route = express.Router();
+//crud controller
+let crud = require('../controller/crud.controller');
 
 // group model
 let group = require('../model/group');
 
 // Add group
-groupRoute.route('/group/add').post((req, res, next) => {
-  console.log(req.body)
-  group.create(req.body, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+group_route.route('/group/add').post((req, res, next) => {
+  crud.addRecord(group, req, res, next);
 });
 
-// Get all groups
-groupRoute.route('/groups').get((req, res) => {
-  group.find((error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+// Get all group
+group_route.route('/groups').get((req, res, next) => {
+  crud.getAll(group, res, next);
 })
 
 // Get group by id
-groupRoute.route('/group/:id').get((req, res) => {
-  group.findById(req.params.id, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+group_route.route('/group/:id').get((req, res, next) => {
+  crud.getById(group, req.params.id, res, next);
 })
 
 
 // Update group
-groupRoute.route('/group/:id').put((req, res, next) => {
-  group.findByIdAndUpdate(req.params.id, {
-    $set: req.body
-  }, (error, data) => {
-    if (error) {
-      return next(error);
-      console.log(error)
-    } else {
-      res.json(data)
-      console.log('group successfully updated!')
-    }
-  })
+group_route.route('/group/:id').put((req, res, next) => {
+  crud.update(group, req, res, next);
 })
 
-// Delete student
-groupRoute.route('/group/:id').delete((req, res, next) => {
-  group.findByIdAndRemove(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.status(200).json({
-        msg: data
-      })
-    }
-  })
+// Delete group
+group_route.route('/group/:id').delete((req, res, next) => {
+  crud.delete(group, req, res, next);
 })
 
-module.exports = groupRoute;
+module.exports = group_route;

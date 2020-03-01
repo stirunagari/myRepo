@@ -38,20 +38,20 @@ app.use(bodyParser.urlencoded({
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../dist/metrolink')));
 app.use('/', express.static(path.join(__dirname, '../dist/metrolink')));
-app.use('/api', screenRoute, cityRoute, userRoute, screenGroupRoute, groupRoute, fieldRoute, fieldGroupRoute)
+
+const routeCheck = (req, res, next) => {
+    // next(createError(404));
+    // console.log('Something is happening.');
+    next();
+  }
+
+app.use('/api', routeCheck, cityRoute, screenRoute, userRoute, screenGroupRoute, groupRoute, fieldRoute, fieldGroupRoute)
 
 // Create port
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
-  console.log('Connected to port ' + port)
+  console.log(`Connected to port ${port}`)
 })
-
-// Find 404 and hand over to error handler
-app.use((req, res, next) => {
-  // next(createError(404));
-  console.log('Something is happening.');
-	next();
-});
 
 // error handler
 app.use(function (err, req, res, next) {

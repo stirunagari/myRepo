@@ -1,71 +1,37 @@
 const express = require('express');
-const app = express();
 const cityRoute = express.Router();
+
+//crud controller
+let crud = require('../controller/crud.controller');
 
 // city model
 let city = require('../model/city');
 
+
 // Add city
 cityRoute.route('/city/add').post((req, res, next) => {
-  console.log(req.body)
-  city.create(req.body, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+    crud.addRecord(city, req, res, next);
 });
 
 // Get all cities
-cityRoute.route('/cities').get((req, res) => {
-  city.find((error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+cityRoute.route('/cities').get((req, res, next) => {
+    crud.getAll(city, res, next);
 })
 
 // Get city by id
-cityRoute.route('/city/:id').get((req, res) => {
-  city.findById(req.params.id, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+cityRoute.route('/city/:id').get((req, res, next) => {
+    crud.getById(city, req.params.id, res, next);
 })
 
 
 // Update city
 cityRoute.route('/city/:id').put((req, res, next) => {
-  city.findByIdAndUpdate(req.params.id, {
-    $set: req.body
-  }, (error, data) => {
-    if (error) {
-      return next(error);
-      console.log(error)
-    } else {
-      res.json(data)
-      console.log('city successfully updated!')
-    }
-  })
+    crud.update(city, req, res, next);
 })
 
-// Delete student
+// Delete city
 cityRoute.route('/city/:id').delete((req, res, next) => {
-  city.findByIdAndRemove(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.status(200).json({
-        msg: data
-      })
-    }
-  })
+    crud.delete(city, req, res, next);
 })
 
 module.exports = cityRoute;

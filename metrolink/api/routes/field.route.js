@@ -1,71 +1,35 @@
 const express = require('express');
-const app = express();
-const fieldRoute = express.Router();
+const field_route = express.Router();
+//crud controller
+let crud = require('../controller/crud.controller');
 
 // field model
 let field = require('../model/field');
 
 // Add field
-fieldRoute.route('/field/add').post((req, res, next) => {
-  console.log(req.body)
-  field.create(req.body, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+field_route.route('/field/add').post((req, res, next) => {
+  crud.addRecord(field, req, res, next);
 });
 
-// Get all fields
-fieldRoute.route('/fields').get((req, res) => {
-  field.find((error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+// Get all field
+field_route.route('/fields').get((req, res, next) => {
+  crud.getAll(field, res, next);
 })
 
 // Get field by id
-fieldRoute.route('/field/:id').get((req, res) => {
-  field.findById(req.params.id, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+field_route.route('/field/:id').get((req, res, next) => {
+  crud.getById(field, req.params.id, res, next);
 })
 
 
 // Update field
-fieldRoute.route('/field/:id').put((req, res, next) => {
-  field.findByIdAndUpdate(req.params.id, {
-    $set: req.body
-  }, (error, data) => {
-    if (error) {
-      return next(error);
-      console.log(error)
-    } else {
-      res.json(data)
-      console.log('field successfully updated!')
-    }
-  })
+field_route.route('/field/:id').put((req, res, next) => {
+  crud.update(field, req, res, next);
 })
 
-// Delete student
-fieldRoute.route('/field/:id').delete((req, res, next) => {
-  field.findByIdAndRemove(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.status(200).json({
-        msg: data
-      })
-    }
-  })
+// Delete field
+field_route.route('/field/:id').delete((req, res, next) => {
+  crud.delete(field, req, res, next);
 })
 
-module.exports = fieldRoute;
+module.exports = field_route;

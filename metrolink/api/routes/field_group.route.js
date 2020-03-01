@@ -1,71 +1,35 @@
 const express = require('express');
-const app = express();
 const field_group_route = express.Router();
+//crud controller
+let crud = require('../controller/crud.controller');
 
 // field_group model
 let field_group = require('../model/field_group');
 
 // Add field_group
 field_group_route.route('/field_group/add').post((req, res, next) => {
-  console.log(req.body)
-  field_group.create(req.body, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+  crud.addRecord(field_group, req, res, next);
 });
 
 // Get all field_group
-field_group_route.route('/field_group').get((req, res) => {
-  field_group.find((error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+field_group_route.route('/field_groups').get((req, res, next) => {
+  crud.getAll(field_group, res, next);
 })
 
 // Get field_group by id
-field_group_route.route('/field_group/:id').get((req, res) => {
-  field_group.findById(req.params.id, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
+field_group_route.route('/field_group/:id').get((req, res, next) => {
+  crud.getById(field_group, req.params.id, res, next);
 })
 
 
 // Update field_group
 field_group_route.route('/field_group/:id').put((req, res, next) => {
-  field_group.findByIdAndUpdate(req.params.id, {
-    $set: req.body
-  }, (error, data) => {
-    if (error) {
-      return next(error);
-      console.log(error)
-    } else {
-      res.json(data)
-      console.log('field_group successfully updated!')
-    }
-  })
+  crud.update(field_group, req, res, next);
 })
 
-// Delete student
+// Delete field_group
 field_group_route.route('/field_group/:id').delete((req, res, next) => {
-  field_group.findByIdAndRemove(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.status(200).json({
-        msg: data
-      })
-    }
-  })
+  crud.delete(field_group, req, res, next);
 })
 
 module.exports = field_group_route;
