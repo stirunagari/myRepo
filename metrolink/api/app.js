@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, '../dist/metrolink')));
 app.use('/', express.static(path.join(__dirname, '../dist/metrolink')));
 
 const routeCheck = (req, res, next) => {
-    // next(createError(404));
+    // next(new Error('Request not found'));
     // console.log('Something is happening.');
     next();
   }
